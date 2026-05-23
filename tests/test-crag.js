@@ -26,38 +26,25 @@ async function run() {
   const database = process.env.POSTGRES_DATABASE || 'crag_knowledge';
 
   if (!password) {
-    console.error("❌ Error: POSTGRES_PASSWORD is not set.");
-    console.error("Please set it in your .env file at the project root.");
-    console.error("See tests/testmethod.md for setup instructions.");
+    console.error("❌ Error: POSTGRES_PASSWORD is not set in .env. See tests/testmethod.md.");
     process.exit(1);
   }
 
-  // ── Read Gemini API Key ─────────────────────────────────────────────────
-  let apiKey = process.env.GEMINI_API_KEY;
-
-  // Fallback: try reading from the app's config.json
-  if (!apiKey) {
-    const configPath = path.join(
-      process.env.APPDATA || (process.platform === 'darwin'
-        ? process.env.HOME + '/Library/Application Support'
-        : process.env.HOME + '/.config'),
-      'interview-coder-v1',
-      'config.json'
-    );
-
-    if (fs.existsSync(configPath)) {
-      try {
-        const appConfig = JSON.parse(fs.readFileSync(configPath, 'utf8'));
-        apiKey = appConfig.apiKey;
-      } catch (e) {
-        console.warn("Could not read API key from app configuration:", e.message);
-      }
+  // ── Read Gemini API Key with fallback to app config ─────────────────────
+  const apiKey = process.env.GEMINI_API_KEY || (() => {
+    const configDir = process.env.APPDATA || (process.platform === 'darwin'
+      ? path.join(process.env.HOME, 'Library/Application Support')
+      : path.join(process.env.HOME, '.config'));
+    const configPath = path.join(configDir, 'interview-coder-v1', 'config.json');
+    try {
+      return fs.existsSync(configPath) ? JSON.parse(fs.readFileSync(configPath, 'utf8')).apiKey : null;
+    } catch {
+      return null;
     }
-  }
+  })();
 
   if (!apiKey) {
-    console.error("❌ Error: No Gemini API Key found.");
-    console.error("Set GEMINI_API_KEY in your .env file or configure it in the app settings.");
+    console.error("❌ Error: No Gemini API Key found in .env or app settings.");
     process.exit(1);
   }
 

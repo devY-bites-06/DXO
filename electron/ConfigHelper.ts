@@ -85,14 +85,14 @@ export class ConfigHelper extends EventEmitter {
         loaded = {
           ...this.defaultConfig,
           ...config,
-          crag: config.crag ? {
+          crag: {
             ...this.defaultConfig.crag,
             ...config.crag,
-            postgres: config.crag.postgres ? {
+            postgres: {
               ...this.defaultConfig.crag?.postgres,
-              ...config.crag.postgres,
-            } : this.defaultConfig.crag?.postgres,
-          } : this.defaultConfig.crag,
+              ...(config.crag?.postgres || {}),
+            },
+          },
         } as Config;
       } else {
         // If no config exists, create a default one
@@ -100,28 +100,15 @@ export class ConfigHelper extends EventEmitter {
       }
 
       // Layer environment variables on top for developer convenience / local deployment override
-      if (process.env.GEMINI_API_KEY) {
-        loaded.apiKey = process.env.GEMINI_API_KEY;
-      }
-      if (loaded.crag) {
-        if (!loaded.crag.postgres) {
-          loaded.crag.postgres = { ...this.defaultConfig.crag?.postgres } as any;
-        }
-        if (process.env.POSTGRES_HOST) {
-          loaded.crag.postgres.host = process.env.POSTGRES_HOST;
-        }
-        if (process.env.POSTGRES_PORT) {
-          loaded.crag.postgres.port = parseInt(process.env.POSTGRES_PORT, 10);
-        }
-        if (process.env.POSTGRES_USER) {
-          loaded.crag.postgres.user = process.env.POSTGRES_USER;
-        }
-        if (process.env.POSTGRES_PASSWORD) {
-          loaded.crag.postgres.password = process.env.POSTGRES_PASSWORD;
-        }
-        if (process.env.POSTGRES_DATABASE) {
-          loaded.crag.postgres.database = process.env.POSTGRES_DATABASE;
-        }
+      loaded.apiKey = process.env.GEMINI_API_KEY || loaded.apiKey;
+
+      if (loaded.crag?.postgres) {
+        const pg = loaded.crag.postgres;
+        pg.host = process.env.POSTGRES_HOST || pg.host;
+        pg.port = process.env.POSTGRES_PORT ? parseInt(process.env.POSTGRES_PORT, 10) : pg.port;
+        pg.user = process.env.POSTGRES_USER || pg.user;
+        pg.password = process.env.POSTGRES_PASSWORD || pg.password;
+        pg.database = process.env.POSTGRES_DATABASE || pg.database;
       }
 
       return loaded;
