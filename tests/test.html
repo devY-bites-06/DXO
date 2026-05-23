@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Design MCQ Test</title>
+    <style>
+        :root {
+            --bg-color: rgb(48, 88, 128);
+            --text-color: rgb(183, 183, 55);
+            --card-bg: rgb(11, 37, 63);
+            --primary: #0d6efd;
+            --border: #dee2e6;
+            --correct: #198754;
+            --wrong: #dc3545;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            padding: 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .header {
+            margin-bottom: 2rem;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 1rem;
+        }
+
+        .question-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .question-text {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-top: 0;
+            margin-bottom: 1rem;
+        }
+
+        .options-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .option-item {
+            margin-bottom: 0.75rem;
+        }
+
+        .option-label {
+            display: flex;
+            align-items: flex-start;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+
+        .option-label:hover {
+            background-color: rgb(51, 50, 107);
+        }
+
+        .option-input {
+            margin-top: 0.3rem;
+            margin-right: 0.75rem;
+        }
+
+        button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: opacity 0.2s;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        #results {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            display: none;
+        }
+
+        .feedback {
+            margin-top: 1rem;
+            font-weight: 600;
+            display: none;
+        }
+
+        .correct-text { color: var(--correct); }
+        .wrong-text { color: var(--wrong); }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>System Design Assignment</h1>
+        <p>Take screenshots of the questions below to test the CRAG pipeline.</p>
+    </div>
+
+    <form id="quizForm">
+        
+        <div class="question-card" id="q1-card">
+            <p class="question-text">1. What is the primary advantage of consistent hashing when adding or removing servers?</p>
+            <ul class="options-list">
+                <li class="option-item"><label class="option-label"><input type="radio" name="q1" value="A" class="option-input"> A) It randomly distributes all data across all servers.</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q1" value="B" class="option-input"> B) It requires a complete reorganization of the hash space.</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q1" value="C" class="option-input"> C) It keeps the hash space largely stable, minimizing data movement.</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q1" value="D" class="option-input"> D) It eliminates the need for virtual nodes.</label></li>
+            </ul>
+            <div class="feedback" id="q1-feedback"></div>
+        </div>
+
+        <div class="question-card" id="q2-card">
+            <p class="question-text">2. In the Scaler Code Judge architecture, why is a "Write Through" cache with TTL invalidation deemed unfeasible for test case files?</p>
+            <ul class="options-list">
+                <li class="option-item"><label class="option-label"><input type="radio" name="q2" value="A" class="option-input"> A) Test cases change too frequently during a live contest.</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q2" value="B" class="option-input"> B) Updating 1GB files atomically across hundreds of app servers is impossible.</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q2" value="C" class="option-input"> C) Local caches cannot store files larger than 500MB.</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q2" value="D" class="option-input"> D) The app server only supports eventual consistency.</label></li>
+            </ul>
+            <div class="feedback" id="q2-feedback"></div>
+        </div>
+
+        <div class="question-card" id="q3-card">
+            <p class="question-text">3. Why is it unfeasible to pre-compute and globally cache the entire newsfeed for all 2 billion Facebook users?</p>
+            <ul class="options-list">
+                <li class="option-item"><label class="option-label"><input type="radio" name="q3" value="A" class="option-input"> A) A single user's newsfeed is approximately 50 TB.</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q3" value="B" class="option-input"> B) The newsfeed ranking algorithm changes frequently, invalidating the entire cache.</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q3" value="C" class="option-input"> C) Redis does not support storing more than 20MB of data.</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q3" value="D" class="option-input"> D) Users only care about posts made in the last 5 years.</label></li>
+            </ul>
+            <div class="feedback" id="q3-feedback"></div>
+        </div>
+
+        <div class="question-card" id="q4-card">
+            <p class="question-text">4. According to the CAP theorem, when a network partition occurs in a large-scale distributed system, what must a practical design choose between?</p>
+            <ul class="options-list">
+                <li class="option-item"><label class="option-label"><input type="radio" name="q4" value="A" class="option-input"> A) Consistency and Partition Tolerance</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q4" value="B" class="option-input"> B) Consistency and Availability</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q4" value="C" class="option-input"> C) Availability and Performance</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q4" value="D" class="option-input"> D) Latency and Durability</label></li>
+            </ul>
+            <div class="feedback" id="q4-feedback"></div>
+        </div>
+
+        <div class="question-card" id="q5-card">
+            <p class="question-text">5. Why is Redis an ideal technology choice for caching a live contest leaderboard that requires 200 views per second?</p>
+            <ul class="options-list">
+                <li class="option-item"><label class="option-label"><input type="radio" name="q5" value="A" class="option-input"> A) It relies on complex SQL joins to sort data efficiently.</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q5" value="B" class="option-input"> B) It uses a multi-threaded architecture to handle concurrent disk writes.</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q5" value="C" class="option-input"> C) It is an in-memory, single-threaded datastore that avoids context switching.</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q5" value="D" class="option-input"> D) It provides absolute immediate consistency for all ranklist updates.</label></li>
+            </ul>
+            <div class="feedback" id="q5-feedback"></div>
+        </div>
+
+        <button type="submit">Submit Assignment</button>
+    </form>
+
+    <div id="results"></div>
+
+    <script>
+        const answers = {
+            q1: 'C',
+            q2: 'B',
+            q3: 'B',
+            q4: 'B',
+            q5: 'C'
+        };
+
+        document.getElementById('quizForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            let score = 0;
+            const formData = new FormData(this);
+
+            for (let i = 1; i <= 5; i++) {
+                const qName = `q${i}`;
+                const userAnswer = formData.get(qName);
+                const feedbackDiv = document.getElementById(`${qName}-feedback`);
+                const card = document.getElementById(`${qName}-card`);
+                
+                feedbackDiv.style.display = 'block';
+
+                if (userAnswer === answers[qName]) {
+                    score++;
+                    feedbackDiv.textContent = '✓ Correct';
+                    feedbackDiv.className = 'feedback correct-text';
+                    card.style.borderColor = 'var(--correct)';
+                } else {
+                    feedbackDiv.textContent = `✗ Incorrect. The correct answer is ${answers[qName]}.`;
+                    feedbackDiv.className = 'feedback wrong-text';
+                    card.style.borderColor = 'var(--wrong)';
+                }
+            }
+
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.style.display = 'block';
+            resultsDiv.textContent = `Final Score: ${score} / 5`;
+            
+            if (score === 5) {
+                resultsDiv.style.backgroundColor = '#d1e7dd';
+                resultsDiv.style.color = '#0f5132';
+                resultsDiv.style.border = '1px solid #badbcc';
+            } else {
+                resultsDiv.style.backgroundColor = '#f8d7da';
+                resultsDiv.style.color = '#842029';
+                resultsDiv.style.border = '1px solid #f5c2c7';
+            }
+        });
+    </script>
+</body>
+</html>
